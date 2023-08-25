@@ -9,6 +9,11 @@ TTY="$(tty)"
 
 SOCKET="${DATA_DIR}/${TTY//\//__}__${CWD//\//__}.pipe"
 
+if [ -S "${SOCKET}" ]
+then
+  exit 0
+fi
+
 cleanup() {
   rm ${SOCKET}
   exit 0
