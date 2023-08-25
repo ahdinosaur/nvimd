@@ -14,5 +14,5 @@ then
   nvim --server "${SOCKET}" --remote $@
   nvim --server "${SOCKET}" --remote-ui
 else
-  vim $@
+  nvim $@
 fi
