@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SOCKET="${1}"
+
+cleanup() {
+  rm ${SOCKET}
+  kill -s SIGTERM $!
+  exit 0
+}
+
+trap cleanup SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
+
+while true
+do
+  nvim --listen "${SOCKET}" --headless
+
+  sleep 1
+done
