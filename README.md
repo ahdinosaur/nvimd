@@ -23,7 +23,7 @@ This is easier than changing how I use `vim`, maybe one day I'll learn. 🤷
 Manually download [`nvimd`](https://github.com/ahdinosaur/nvimd/blob/main/nvimd)
 and
 [`nvimd-server`](https://github.com/ahdinosaur/nvimd/blob/main/nvimd-server)
-into your preferred `bin` location (e.g. `$HOME/.local/bin).
+into your preferred `bin` location (e.g. `$HOME/.local/bin`).
 
 #### Git
 
@@ -69,6 +69,9 @@ Then use `nvimd` as you would `nvim`:
 ```shell
 nvimd path/to/file
 ```
+
+When you want to close your editor, use your special keymap (`<leader>q`)
+instead of `:q`.
 
 ## [License](./LICENSE)
 
