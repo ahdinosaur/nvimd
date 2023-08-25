@@ -1,8 +1,0 @@
-#!/bin/bash
-
-DATA_DIR="${HOME}/.local/share/nvimd/sockets"
-
-rm -f "${DATA_DIR}/*"
-
-pkill -9 nvimd-server
-pkill -9 nvim
