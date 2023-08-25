@@ -9,10 +9,11 @@ TTY="$(tty)"
 
 SOCKET="${DATA_DIR}/${TTY//\//__}__${CWD//\//__}.pipe"
 
-if [ ! -S "${SOCKET}" ]
-then
-  nvimd-server "${SOCKET}" /dev/null 2>&1 0< /dev/null &
-fi
+#
+#if [ ! -S "${SOCKET}" ]
+#then
+#  nvimd-server "${SOCKET}" /dev/null 2>&1 0< /dev/null &
+#fi
 
 nvim --server "${SOCKET}" --remote "${1}"
 nvim --server "${SOCKET}" --remote-ui

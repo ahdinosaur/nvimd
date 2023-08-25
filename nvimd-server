@@ -1,10 +1,17 @@
 #!/bin/bash
 
-SOCKET="${1}"
+DATA_DIR="${HOME}/.local/share/nvimd/sockets"
+
+mkdir -p "${DATA_DIR}"
+
+CWD="$(pwd)"
+TTY="$(tty)"
+
+SOCKET="${DATA_DIR}/${TTY//\//__}__${CWD//\//__}.pipe"
 
 cleanup() {
   rm ${SOCKET}
-  kill -s SIGTERM $!
+  # kill -s SIGTERM $PID
   exit 0
 }
 
@@ -12,7 +19,7 @@ trap cleanup SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
 
 while true
 do
-  nvim --listen "${SOCKET}" --headless
+  nvim --listen "${SOCKET}" --headless > /dev/null 2>&1 0< /dev/null
 
   sleep 1
 done
