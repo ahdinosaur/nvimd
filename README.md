@@ -73,6 +73,55 @@ nvimd path/to/file
 When you want to close your editor, use your special keymap (`<leader>q`)
 instead of `:q`.
 
+## FAQ
+
+### Why?
+
+Yes.
+
+### How does this work?
+
+We use the output of `tty` and `pwd` to construct a socket path.
+
+Because [`neovim`'s server is not multi-tenant](https://github.com/neovim/neovim/issues/2161),
+we need a separate server for each terminal (`tty`).
+
+Also for the sake of plugins working as expected, we want a separate
+server for each working directory (`pwd`)
+
+When you run `nvimd-server`:
+
+- Start a `nvim` server with the given socket path.
+- In case this `nvim` server is shut down, restart in an infinite loop.
+- If we get a signal to close this program, clean up the socket before exiting.
+
+We need to start `nvimd-server &` in the terminal separately, so the terminal
+is the parent, and when the terminal is closed, the server is closed.
+
+When you run `nvimd`:
+
+- Check if there is the socket exists
+- If so, connect to the `nvim` server as a remote ui
+- Otherwise, run `nvim` as usual
+
+### Why does `nvimd-server` need to be started separately?
+
+I was hoping `nvimd` could be used as a drop-in replacement for `nvim`.
+
+If `nvimd-server` wasn't yet running, then run it when you call `nvimd` the
+first time.
+
+But I couldn't solve this issue:
+
+- If `nvimd` starts `nvimd-server`, then `nvimd-server`'s parent process is
+  `nvimd`.
+- When that `nvimd` process eventually stops (because you're done editing your
+  file), then `nvimd-server` has no parent and is re-parented to PID 1 (`init`).
+- When you later are done and close your terminal, `nvimd-server` keeps running.
+
+I think a proper solution would be something
+[like how `screen` works](https://unix.stackexchange.com/a/193918).
+
 ## [License](./LICENSE)
 
 ```txt
