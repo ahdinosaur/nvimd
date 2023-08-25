@@ -44,11 +44,16 @@ remote ui.
 Add the following to your Lua `neovim` config
 
 ```lua
--- disconnect all remote-ui sessions
+-- disconnect all sessions
 vim.keymap.set("n", "<leader>q", function()
   for _, ui in pairs(vim.api.nvim_list_uis()) do
-    if ui.chan and not ui.stdout_tty then
+    -- is remote ui
+    if ui.chan then
       vim.fn.chanclose(ui.chan)
+    end
+    -- is normal ui
+    if ui.stdout_tty then
+      vim.api.nvim_command(":q")
     end
   end
 end, { noremap = true })
