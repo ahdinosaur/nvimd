@@ -4,8 +4,8 @@ DATA_DIR="${HOME}/.local/share/nvimd/sockets"
 
 mkdir -p "${DATA_DIR}"
 
-CWD="$(pwd)"
-TTY="$(tty)"
+CWD="$(pwd | cut -d "/" -f 4-)"
+TTY="$(tty | cut -d "/" -f 4)"
 
 SOCKET="${DATA_DIR}/${TTY//\//__}__${CWD//\//__}.pipe"
 
